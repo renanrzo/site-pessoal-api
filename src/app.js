@@ -1,4 +1,5 @@
 require('./config/dotenv');
+require('express-async-errors');
 
 const express = require('express');
 const cors = require('cors')
@@ -28,10 +29,10 @@ app.use('/api/auth', authRoute);
 
 initDatabase();
 
-// app.use((err, req, res, next) => {
-//     console.error(err.stack);
-//     res.status(500).send('Algo deu errado');
-// });
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send({'Erro': err.message});
+});
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
